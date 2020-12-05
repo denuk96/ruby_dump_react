@@ -1,12 +1,13 @@
 import { spawn, takeLatest, put, call } from "redux-saga/effects";
+import { Settings } from "../config/settings";
 import { Record } from "immutable";
-// import {getData, postData} from "../api/apiDataFetch";
+import axios from "axios";
 import { showErrors } from "./message";
 
 // TYPES
 const moduleName = "auth";
 
-const link = "https://young-chamber-53830.herokuapp.com/";
+const baseLink = new Settings().apiUrl + "auth";
 
 export const AUTH_IS_LOADING = `${moduleName}/signInLoading`;
 export const SIGN_IN_TRY = `${moduleName}/signInTry`;
@@ -18,13 +19,13 @@ export const CLEAR_ERROR = `${moduleName}/clearError`;
 
 // SELECTORS
 export const getAuthStat = (state) => state.authReducer;
-export const getUserSignedIN = (state) => state.authReducer.signedIn;
+export const getUserSignedIN = (state) => state.authReducer.isSignedIn;
 export const getAccessToken = (state) => state.authReducer.access_token;
 
 // REDUCER
 const ReducerRecord = Record({
   user: null,
-  signedIn: false,
+  isSignedIn: false,
   loading: false,
   access_token: null,
   errors_from_server: null,
@@ -38,14 +39,14 @@ export default function authReducer(state = new ReducerRecord(), action) {
       return state
         .set("access_token", payload.access_token)
         .set("user", payload.user)
-        .set("signedIn", true)
+        .set("isSignedIn", true)
         .set("errors_from_server", null)
         .set("loading", false);
 
     case SIGN_OUT:
       return state
         .set("access_token", null)
-        .set("signedIn", false)
+        .set("isSignedIn", false)
         .set("user", null);
 
     case SET_ERROR:
@@ -75,7 +76,7 @@ export const signInTry = (email, password) => ({
   },
 });
 
-export const signIn = (user) => ({
+export const signInSuccess = (user) => ({
   type: SIGN_IN_SUCCESS,
   payload: {
     access_token: user.access_token,
@@ -136,21 +137,23 @@ function* signInRequest(action) {
 function* tryToSignUp(action) {
   yield put(authLoading());
   try {
-    const response = yield call();
-    // postData, `${link}sign_up`, 'POST', action.payload
-    if (response.code === 200) {
-      yield call(singInUser, response.body);
-    } else {
-      yield put(setError(response.body.errors));
-    }
+    const response = yield call(() =>
+      axios({
+        method: "post",
+        url: baseLink + "/sign-up",
+        data: action.payload,
+      })
+    );
+
+    yield call(singInUser, response.data);
   } catch (e) {
-    yield put(setError("server-error"));
+    yield put(setError(e.response.data.error));
   }
 }
 
-function* singInUser(body) {
-  window.localStorage.setItem("access_token", body.access_token);
-  yield put(signIn(body));
+function* singInUser(data) {
+  window.localStorage.setItem("access_token", data.access_token);
+  yield put(signInSuccess(data));
 }
 
 function* signOutUser() {

@@ -2,10 +2,10 @@ import React from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { signInTry } from "../../ducks/auth";
+import { signUpTry } from "../../ducks/auth";
 import { Loader } from "../common/loader";
 
-export default function SignInForm({ showed, toggleSignInForm }) {
+export default function SignUpForm({ showed, hideSignUpForm }) {
   const { register, handleSubmit, watch, errors } = useForm();
   const dispatch = useDispatch();
   const showLoading = useSelector((state) => state.authReducer.loading);
@@ -15,13 +15,13 @@ export default function SignInForm({ showed, toggleSignInForm }) {
 
   function onSubmit(data) {
     let { email, password } = data;
-    dispatch(signInTry(email, password));
+    dispatch(signUpTry({ email, password }));
   }
 
   if (showLoading) {
     return (
-      <Modal show={showed} onHide={toggleSignInForm}>
-        <Modal.Header closeButton></Modal.Header>
+      <Modal show={showed} onHide={hideSignUpForm}>
+        <Modal.Header closeButton />
         <Modal.Body>
           <Loader />
         </Modal.Body>
@@ -30,11 +30,14 @@ export default function SignInForm({ showed, toggleSignInForm }) {
   }
 
   return (
-    <Modal show={showed} onHide={toggleSignInForm}>
+    <Modal show={showed} onHide={hideSignUpForm}>
       <Modal.Header closeButton>
-        <Modal.Title>Sign in</Modal.Title>
+        <Modal.Title>Sign Up</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {errorsFromServer != null && (
+          <h4 className="warning-message">{errorsFromServer}</h4>
+        )}
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Control
             type="email"
