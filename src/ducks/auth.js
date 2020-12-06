@@ -2,7 +2,6 @@ import { spawn, takeLatest, put, call } from "redux-saga/effects";
 import { Settings } from "../config/settings";
 import { Record } from "immutable";
 import axios from "axios";
-import { showErrors } from "./message";
 
 // TYPES
 const moduleName = "auth";
@@ -109,28 +108,32 @@ export const clearError = () => ({
 function* initAuthSaga() {
   const localTokens = window.localStorage.getItem("access_token");
   try {
-    const response = yield call();
-    // getData, `${link}user_info/`, 'GET', localTokens
-    if (response.code === 200) {
-      yield call(singInUser, response.body);
-    }
+    const response = yield call(() =>
+      axios({
+        method: "get",
+        url: baseLink + "/auto-login",
+        headers: { Authorization: localTokens },
+      })
+    );
+    yield call(singInUser, response.data);
   } catch (e) {
-    yield put(showErrors("Auth server error"));
+    yield put(setError(e.response.data.error));
   }
 }
 
 function* signInRequest(action) {
   yield put(authLoading());
   try {
-    const response = yield call();
-    // postData, `${link}sign_in`, 'POST', action.payload
-    if (response.code === 200) {
-      yield call(singInUser, response.body);
-    } else {
-      yield put(setError(response.body.errors));
-    }
+    const response = yield call(() =>
+      axios({
+        method: "post",
+        url: baseLink + "/sign-in",
+        data: action.payload,
+      })
+    );
+    yield call(singInUser, response.data);
   } catch (e) {
-    yield put(setError("server-error"));
+    yield put(setError(e.response.data.error));
   }
 }
 
