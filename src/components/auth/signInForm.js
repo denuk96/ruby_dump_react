@@ -35,6 +35,9 @@ export default function SignInForm({ showed, hideSignInForm }) {
         <Modal.Title>Sign In</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {errorsFromServer != null && (
+          <h4 className="warning-message">{errorsFromServer}</h4>
+        )}
         <Form onSubmit={handleSubmit(onSubmit)}>
           <Form.Control
             type="email"
