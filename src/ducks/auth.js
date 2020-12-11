@@ -6,7 +6,7 @@ import axios from "axios";
 // TYPES
 const moduleName = "auth";
 
-const baseLink = new Settings().apiUrl + "auth";
+const baseLink = new Settings().apiUrl + moduleName;
 
 export const AUTH_IS_LOADING = `${moduleName}/signInLoading`;
 export const SIGN_IN_TRY = `${moduleName}/signInTry`;
