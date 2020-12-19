@@ -2,10 +2,11 @@ import React from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import PropTypes from "prop-types";
 import { signUpTry } from "../../ducks/auth";
 import { Loader } from "../common/loader";
 
-export default function SignUpForm({ showed, hideSignUpForm }) {
+function SignUpForm({ showed, hideSignUpForm }) {
   const { register, handleSubmit, watch, errors } = useForm();
   const dispatch = useDispatch();
   const showLoading = useSelector((state) => state.authReducer.loading);
@@ -71,3 +72,10 @@ export default function SignUpForm({ showed, hideSignUpForm }) {
     </Modal>
   );
 }
+
+SignUpForm.propTypes = {
+  showed: PropTypes.bool,
+  hideSignUpForm: PropTypes.func.isRequired,
+};
+
+export default SignUpForm;

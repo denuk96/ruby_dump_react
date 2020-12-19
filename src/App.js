@@ -1,15 +1,9 @@
 import "./App.css";
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import Header from "./components/common/header";
-import PostList from "./components/post/postList";
-import PostShow from "./components/post/postShow";
+import Routes from "./config/routes";
 
 export default function App() {
   return (
@@ -17,16 +11,7 @@ export default function App() {
       <div className="App">
         <Header />
       </div>
-
-      <Switch>
-        <Redirect exact from="/" to="/posts" />
-        <Route path="/posts/:category/:slug">
-          <PostShow />
-        </Route>
-        <Route path="/posts">
-          <PostList />
-        </Route>
-      </Switch>
+      <Routes />
     </Router>
   );
 }

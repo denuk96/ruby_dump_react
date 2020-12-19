@@ -1,5 +1,5 @@
 import { Record } from "immutable";
 
 export const Settings = Record({
-  apiUrl: "http://localhost:3000/api/v1/",
+  apiUrl: process.env.REACT_APP_API_URL,
 });

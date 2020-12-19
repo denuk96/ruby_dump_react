@@ -1,6 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-export default function CategoryItem({ category }) {
+function CategoryItem({ category }) {
   return (
     <div>
       <p>id:{category.id}</p>
@@ -8,3 +9,9 @@ export default function CategoryItem({ category }) {
     </div>
   );
 }
+
+CategoryItem.propTypes = {
+  category: PropTypes.object.isRequired,
+};
+
+export default CategoryItem;

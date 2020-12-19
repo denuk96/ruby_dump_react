@@ -1,7 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link, useRouteMatch } from "react-router-dom";
 
-export default function PostItem({ post, category }) {
+function PostItem({ post, category }) {
   let match = useRouteMatch();
 
   return (
@@ -12,3 +13,10 @@ export default function PostItem({ post, category }) {
     </div>
   );
 }
+
+PostItem.propTypes = {
+  post: PropTypes.object.isRequired,
+  category: PropTypes.object.isRequired,
+};
+
+export default PostItem;
