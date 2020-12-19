@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useHistory } from "react-router-dom";
+import { useLocation, useHistory, Link } from "react-router-dom";
 import CategoryList from "../category/categoryList";
 import PostItem from "./postItem";
 
@@ -36,6 +36,7 @@ export default function PostList() {
       <hr />
 
       <h2>posts</h2>
+      <Link to="/posts/new">Create new POST </Link>
       <ul>
         {sortedPosts !== undefined && sortedPosts.length > 0 ? (
           sortedPosts.map((post, index) => {
