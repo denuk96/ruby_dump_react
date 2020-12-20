@@ -1,8 +1,14 @@
 import { Record } from "immutable";
-import { put, spawn, takeLatest } from "redux-saga/effects";
+import { put, takeLatest, call, select } from "redux-saga/effects";
+import axios from "axios";
+import { getAccessToken } from "./auth";
+import { showErrors, showNotices } from "./message";
+import { getCategories } from "./category";
 
 // TYPES
 const moduleName = "posts";
+
+const baseLink = process.env.REACT_APP_API_URL + "/posts";
 
 export const SET_POSTS = `${moduleName}/setPosts`;
 export const TRY_CREATE_POST = `${moduleName}/tryCreatePost`;
@@ -10,6 +16,7 @@ export const POST_SUCCESSFUL_CREATED = `${moduleName}/postSuccessfulCreated`;
 export const TRY_EDIT_POST = `${moduleName}/tryEditPost`;
 export const POST_SUCCESSFUL_EDITED = `${moduleName}/postSuccessfulEdited`;
 export const POST_IS_LOADING = `${moduleName}/postLoading`;
+export const POST_IS_NOT_LOADING = `${moduleName}/postNotLoading`;
 
 // REDUCER
 
@@ -27,6 +34,9 @@ export default function postReducer(state = new ReducerRecord(), action) {
 
     case POST_IS_LOADING:
       return (state = { ...state, loading: true });
+
+    case POST_IS_NOT_LOADING:
+      return (state = { ...state, loading: false });
 
     case POST_SUCCESSFUL_CREATED:
       return (state = {
@@ -69,12 +79,17 @@ export const postIsLoading = () => {
   };
 };
 
-export const tryCreatePost = (title, body) => {
+export const postIsNotLoading = () => {
+  return {
+    type: POST_IS_NOT_LOADING,
+  };
+};
+
+export const tryCreatePost = (post) => {
   return {
     type: TRY_CREATE_POST,
     payload: {
-      title,
-      body,
+      post,
     },
   };
 };
@@ -111,17 +126,26 @@ export const postSuccessfulEdited = (post) => {
 // logic
 function* tryingCreatePost(action) {
   yield put(postIsLoading());
+  const accessToken = yield select(getAccessToken);
+  let { title, body, category_id } = action.payload.post;
   try {
-    //     const response = yield call(() =>
-    //       axios({
-    //         method: "post",
-    //         url: baseLink + "/sign-in",
-    //         data: action.payload,
-    //       })
-    //     );
-    //     yield call(singInUser, response.data);
+    const response = yield call(() =>
+      axios({
+        method: "post",
+        url: baseLink,
+        dataType: "json",
+        data: { body, title, category_id },
+        headers: { Authorization: accessToken },
+      })
+    );
+    yield put(postSuccessfulCreated(response.data));
+    yield put(showNotices("Post created"));
+
+    const redirectPath = redirectToPostPath(response.data);
+    yield call(replace, redirectPath);
   } catch (e) {
-    //     yield put(setError(e.response.data.error));
+    yield put(showErrors(e.response.data.post_errors));
+    yield put(postIsNotLoading());
   }
 }
 
@@ -138,6 +162,20 @@ function* tryingEditPost(action) {
     //     yield call(singInUser, response.data);
   } catch (e) {
     //     yield put(setError(e.response.data.error));
+  }
+}
+
+function* redirectToPostPath(post) {
+  console.log(post);
+  const categories = yield select(getCategories);
+  const post_category = categories.find(
+    (category) => category.id === post.category_id
+  );
+  if (post_category) {
+    console.log(`posts/${post_category.name}/${post.title}`);
+    return `posts/${post_category.name}/${post.title}`;
+  } else {
+    return "/";
   }
 }
 

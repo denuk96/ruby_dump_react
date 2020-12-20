@@ -3,8 +3,10 @@ import { useSelector } from "react-redux";
 import { useLocation, useHistory, Link } from "react-router-dom";
 import CategoryList from "../category/categoryList";
 import PostItem from "./postItem";
+import { Loader } from "../common/loader";
 
 export default function PostList() {
+  const isLoaded = useSelector((state) => state.categoryReducer.loaded);
   const categories = useSelector((state) => state.categoryReducer.categories);
   const posts = useSelector((state) => state.postReducer.posts);
   const location = useLocation();
@@ -25,6 +27,10 @@ export default function PostList() {
       return posts;
     }
   };
+
+  if (!isLoaded) {
+    return <Loader />;
+  }
 
   const sortedPosts = sortPosts();
 

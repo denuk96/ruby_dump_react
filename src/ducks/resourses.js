@@ -1,30 +1,26 @@
-import { Record } from "immutable";
-import { call, put, spawn, takeLatest } from "redux-saga/effects";
+import { call, put, spawn } from "redux-saga/effects";
 import axios from "axios";
 import { setCategories } from "./category";
 import { setPosts } from "./post";
+import { Settings } from "../config/settings";
+import { showErrors } from "./message";
+
+const baseLink = new Settings().apiUrl;
 
 // logic
 function* tryLoadResources() {
   try {
-    const response = {
-      data: {
-        categories: [
-          { id: 44, name: "first_category" },
-          { id: 55, name: "second_category" },
-        ],
-        posts: [
-          { id: 123, title: "first_post", category_id: 44 },
-          { id: 124, title: "second_post", category_id: 44 },
-          { id: 125, title: "third_post", category_id: 55 },
-        ],
-      },
-    };
+    const response = yield call(() =>
+      axios({
+        method: "get",
+        url: baseLink + "/first-load-resources",
+      })
+    );
 
     yield put(setCategories(response.data.categories));
     yield put(setPosts(response.data.posts));
   } catch (e) {
-    // yield put(setError(e.response.data.error));
+    yield put(showErrors(e.response.data.error));
   }
 }
 

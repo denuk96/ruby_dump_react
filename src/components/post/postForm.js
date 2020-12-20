@@ -8,26 +8,24 @@ import { tryCreatePost, tryEditPost } from "../../ducks/post";
 
 export default function PostForm() {
   const { register, handleSubmit, errors } = useForm();
-  const showLoading = useSelector((state) => state.postReducer.loading);
-  // const errorsFromServer = useSelector(
-  //   (state) => state.authReducer.errors_from_server
-  // );
   const dispatch = useDispatch();
   const location = useLocation();
+  const showLoading = useSelector((state) => state.postReducer.loading);
+  const categories = useSelector((state) => state.categoryReducer.categories);
 
   let isEditing = false;
   let post = null;
-  if (location.state.post) {
+  if (location.state && location.state.post) {
     isEditing = true;
     post = location.state.post;
   }
 
   function onSubmit(data) {
-    let { title, body } = data;
+    let { title, body, category_id } = data;
     if (isEditing) {
-      dispatch(tryEditPost(post.id, title, body));
+      dispatch(tryEditPost({ id: post.id, title, body, category_id }));
     } else {
-      dispatch(tryCreatePost(title, body));
+      dispatch(tryCreatePost({ title, body, category_id }));
     }
   }
 
@@ -38,10 +36,27 @@ export default function PostForm() {
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Form.Control
+        type="select"
+        as="select"
+        name="category_id"
+        ref={register}
+        defaultValue={isEditing ? post.category_id : 0}
+      >
+        {categories.map((category) => {
+          return (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          );
+        })}
+        <option value={0}>Other</option>
+      </Form.Control>
+
+      <Form.Control
         type="text"
         name="title"
         placeholder="TITLE"
-        value={isEditing && post ? post.title : ""}
+        defaultValue={isEditing && post ? post.title : " "}
         ref={register({ required: true })}
       />
       {errors.title && <span>Title is required</span>}
@@ -50,12 +65,12 @@ export default function PostForm() {
         type="text"
         name="body"
         placeholder="Right smth here"
-        value={isEditing && post ? post.body : ""}
+        defaultValue={isEditing && post ? post.body : " "}
         ref={register({ required: true })}
       />
       {errors.body && <span>BODY is required</span>}
 
-      <Button type="submit" />
+      <Button type="submit"> Submit </Button>
     </Form>
   );
 }
