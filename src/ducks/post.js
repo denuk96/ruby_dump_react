@@ -1,5 +1,6 @@
 import { Record } from "immutable";
 import { put, takeLatest, call, select } from "redux-saga/effects";
+import history from "../config/history";
 import axios from "axios";
 import { getAccessToken } from "./auth";
 import { showErrors, showNotices } from "./message";
@@ -141,8 +142,8 @@ function* tryingCreatePost(action) {
     yield put(postSuccessfulCreated(response.data));
     yield put(showNotices("Post created"));
 
-    const redirectPath = redirectToPostPath(response.data);
-    yield call(replace, redirectPath);
+    const redirectPath = yield redirectToPostPath(response.data);
+    history.push(redirectPath);
   } catch (e) {
     yield put(showErrors(e.response.data.post_errors));
     yield put(postIsNotLoading());
@@ -166,16 +167,14 @@ function* tryingEditPost(action) {
 }
 
 function* redirectToPostPath(post) {
-  console.log(post);
   const categories = yield select(getCategories);
   const post_category = categories.find(
     (category) => category.id === post.category_id
   );
   if (post_category) {
-    console.log(`posts/${post_category.name}/${post.title}`);
-    return `posts/${post_category.name}/${post.title}`;
+    return `${post_category.name}/${post.title}`;
   } else {
-    return "/";
+    return `other/${post.title}`;
   }
 }
 

@@ -15,6 +15,9 @@ export default function CategoryList() {
           <li>
             <Link to="/posts"> All </Link>
           </li>
+          <li>
+            <Link to={`${match.url}/other`}> OTHER </Link>
+          </li>
           {categories.map((category, index) => {
             return (
               <li key={category.id}>
@@ -27,7 +30,7 @@ export default function CategoryList() {
         </ul>
       </div>
       <Switch>
-        <Route path={`${match.path}/:slug`}></Route>
+        <Route path={`${match.path}/:slug`} />
         <Route path={match.path}>
           <h3>no selected categories</h3>
         </Route>

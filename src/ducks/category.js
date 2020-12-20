@@ -2,7 +2,7 @@ import { Record } from "immutable";
 
 // SELECTORS
 
-export const getCategories = (state) => state.categoryReducer;
+export const getCategories = (state) => state.categoryReducer.categories;
 
 // TYPES
 const moduleName = "categories";

@@ -21,9 +21,17 @@ export default function PostForm() {
   }
 
   function onSubmit(data) {
-    let { title, body, category_id } = data;
+    let { title, body, categoryId } = data;
+    let category_id = categoryId === "0" ? null : categoryId;
     if (isEditing) {
-      dispatch(tryEditPost({ id: post.id, title, body, category_id }));
+      dispatch(
+        tryEditPost({
+          id: post.id,
+          title: title.trim(),
+          body: body.trim(),
+          category_id,
+        })
+      );
     } else {
       dispatch(tryCreatePost({ title, body, category_id }));
     }
@@ -38,7 +46,7 @@ export default function PostForm() {
       <Form.Control
         type="select"
         as="select"
-        name="category_id"
+        name="categoryId"
         ref={register}
         defaultValue={isEditing ? post.category_id : 0}
       >
@@ -56,7 +64,7 @@ export default function PostForm() {
         type="text"
         name="title"
         placeholder="TITLE"
-        defaultValue={isEditing && post ? post.title : " "}
+        defaultValue={isEditing && post ? post.title : ""}
         ref={register({ required: true })}
       />
       {errors.title && <span>Title is required</span>}
@@ -65,7 +73,7 @@ export default function PostForm() {
         type="text"
         name="body"
         placeholder="Right smth here"
-        defaultValue={isEditing && post ? post.body : " "}
+        defaultValue={isEditing && post ? post.body : ""}
         ref={register({ required: true })}
       />
       {errors.body && <span>BODY is required</span>}

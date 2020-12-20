@@ -14,15 +14,17 @@ export default function PostList() {
 
   const sortPosts = () => {
     const categoryName = location.pathname.split("posts/")[1];
-    if (categoryName) {
+    if (categoryName && categoryName !== "other") {
       const category = categories.find(
         (category) => category.name === categoryName
       );
       if (category) {
         return posts.filter((post) => post.category_id === category.id);
       } else {
-        history.push("/");
+        history.push("/posts");
       }
+    } else if (categoryName === "other") {
+      return posts.filter((post) => post.category_id === null);
     } else {
       return posts;
     }

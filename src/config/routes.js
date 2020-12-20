@@ -14,10 +14,16 @@ export default function Routes() {
         <PostForm />
       </Route>
       <Redirect exact from="/" to="/posts" />
+      <Route path="/posts/other/:slug">
+        <PostShow />
+      </Route>
       <Route path="/posts/:category/:slug">
         <PostShow />
       </Route>
       <Route path="/posts">
+        <PostList />
+      </Route>
+      <Route exact path="/posts/other">
         <PostList />
       </Route>
     </Switch>

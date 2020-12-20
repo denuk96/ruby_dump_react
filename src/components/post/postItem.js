@@ -9,7 +9,11 @@ function PostItem({ post, category }) {
     <div>
       <b>title: {post.title}</b>
       <p>category_id: {post.category_id}</p>
-      <Link to={`${match.url}/${category.name}/${post.title}`}>show</Link>
+      {category ? (
+        <Link to={`${match.url}/${category.name}/${post.title}`}>show</Link>
+      ) : (
+        <Link to={`${match.url}/other/${post.title}`}>show</Link>
+      )}
     </div>
   );
 }
