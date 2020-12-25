@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { showErrors } from "../../ducks/message";
 import EditPostButton from "./buttons/editPostButton";
+import DeletePostButton from "./buttons/deletePostButton";
 import { Loader } from "../common/loader";
 
 export default function PostShow() {
@@ -30,6 +31,9 @@ export default function PostShow() {
       <p>category_id: {post.category_id}</p>
       <p>
         <EditPostButton post={post} />
+      </p>
+      <p>
+        <DeletePostButton post={post} />
       </p>
     </div>
   );

@@ -18,6 +18,8 @@ export const TRY_EDIT_POST = `${moduleName}/tryEditPost`;
 export const POST_SUCCESSFUL_EDITED = `${moduleName}/postSuccessfulEdited`;
 export const POST_IS_LOADING = `${moduleName}/postLoading`;
 export const POST_IS_NOT_LOADING = `${moduleName}/postNotLoading`;
+export const TRY_DELETE_POST = `${moduleName}/tryDeletePost`;
+export const POST_SUCCESSFUL_DELETED = `${moduleName}/postSuccessfulDeleted`;
 
 // REDUCER
 
@@ -56,6 +58,13 @@ export default function postReducer(state = new ReducerRecord(), action) {
           }
           return post;
         }),
+      });
+
+    case POST_SUCCESSFUL_DELETED:
+      return (state = {
+        ...state,
+        loading: false,
+        posts: state.posts.filter((post) => post.id !== payload.id),
       });
 
     default:
@@ -125,6 +134,24 @@ export const postSuccessfulEdited = (post) => {
   };
 };
 
+export const tryDeletePost = (id) => {
+  return {
+    type: TRY_DELETE_POST,
+    payload: {
+      id,
+    },
+  };
+};
+
+export const postDeleted = (id) => {
+  return {
+    type: POST_SUCCESSFUL_DELETED,
+    payload: {
+      id,
+    },
+  };
+};
+
 // logic
 function* tryingCreatePost(action) {
   yield put(postIsLoading());
@@ -176,6 +203,27 @@ function* tryingEditPost(action) {
   }
 }
 
+function* tryingDeletePost(action) {
+  yield put(postIsLoading());
+  const accessToken = yield select(getAccessToken);
+  try {
+    yield call(() =>
+      axios({
+        method: "DELETE",
+        url: baseLink + action.payload.id,
+        headers: { Authorization: accessToken },
+      })
+    );
+    yield call(history.push, "/posts");
+
+    yield put(postDeleted(action.payload.id));
+    yield put(showNotices("Post Deleted"));
+  } catch (e) {
+    yield put(showErrors(e.response.data.error));
+    yield put(postIsNotLoading());
+  }
+}
+
 function* redirectToPostPath(post) {
   const categories = yield select(getCategories);
   const post_category = categories.find(
@@ -191,4 +239,5 @@ function* redirectToPostPath(post) {
 export const post = function* () {
   yield takeLatest(TRY_CREATE_POST, tryingCreatePost);
   yield takeLatest(TRY_EDIT_POST, tryingEditPost);
+  yield takeLatest(TRY_DELETE_POST, tryingDeletePost);
 };
