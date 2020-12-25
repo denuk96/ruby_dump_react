@@ -23,7 +23,7 @@ export const POST_IS_NOT_LOADING = `${moduleName}/postNotLoading`;
 
 const ReducerRecord = Record({
   posts: [],
-  loading: false,
+  loading: true,
 });
 
 export default function postReducer(state = new ReducerRecord(), action) {
