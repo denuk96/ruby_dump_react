@@ -2,15 +2,18 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory, useParams } from "react-router-dom";
 import { showErrors } from "../../ducks/message";
+import EditPostButton from "./buttons/editPostButton";
 import { Loader } from "../common/loader";
 
 export default function PostShow() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { slug } = useParams();
+
   const postReducer = useSelector((state) => state.postReducer);
   const posts = postReducer.posts;
   const isLoad = postReducer.loading;
-  let { slug } = useParams();
+
   const post = posts.find((post) => post.title === slug);
 
   if (!post && !isLoad) {
@@ -25,14 +28,9 @@ export default function PostShow() {
     <div>
       <b>title: {post.title}</b>
       <p>category_id: {post.category_id}</p>
-      <Link
-        to={{
-          pathname: "/posts/edit",
-          state: { post },
-        }}
-      >
-        EDIT
-      </Link>
+      <p>
+        <EditPostButton post={post} />
+      </p>
     </div>
   );
 }
