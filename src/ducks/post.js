@@ -9,7 +9,7 @@ import { getCategories } from "./category";
 // TYPES
 const moduleName = "posts";
 
-const baseLink = process.env.REACT_APP_API_URL + "/posts";
+const baseLink = process.env.REACT_APP_API_URL + "/posts/";
 
 export const SET_POSTS = `${moduleName}/setPosts`;
 export const TRY_CREATE_POST = `${moduleName}/tryCreatePost`;
@@ -104,13 +104,14 @@ export const postSuccessfulCreated = (post) => {
   };
 };
 
-export const tryEditPost = (id, title, body) => {
+export const tryEditPost = (id, title, body, category_id) => {
   return {
     type: TRY_EDIT_POST,
     payload: {
       id,
       title,
       body,
+      category_id,
     },
   };
 };
@@ -145,24 +146,33 @@ function* tryingCreatePost(action) {
     const redirectPath = yield redirectToPostPath(response.data);
     history.push(redirectPath);
   } catch (e) {
-    yield put(showErrors(e.response.data.post_errors));
+    yield put(showErrors(e.response.data.error));
     yield put(postIsNotLoading());
   }
 }
 
 function* tryingEditPost(action) {
   yield put(postIsLoading());
+  const accessToken = yield select(getAccessToken);
+  let { id, title, body, category_id } = action.payload;
   try {
-    //     const response = yield call(() =>
-    //       axios({
-    //         method: "post",
-    //         url: baseLink + "/sign-in",
-    //         data: action.payload,
-    //       })
-    //     );
-    //     yield call(singInUser, response.data);
+    const response = yield call(() =>
+      axios({
+        method: "PATCH",
+        url: baseLink + id,
+        dataType: "json",
+        data: { body, title, category_id },
+        headers: { Authorization: accessToken },
+      })
+    );
+    yield put(postSuccessfulEdited(response.data));
+    yield put(showNotices("Post updated"));
+
+    const redirectPath = yield redirectToPostPath(response.data);
+    history.push(redirectPath);
   } catch (e) {
-    //     yield put(setError(e.response.data.error));
+    yield put(showErrors(e.response.data.error));
+    yield put(postIsNotLoading());
   }
 }
 

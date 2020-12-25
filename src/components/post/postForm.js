@@ -24,16 +24,15 @@ export default function PostForm() {
     let { title, body, categoryId } = data;
     let category_id = categoryId === "0" ? null : categoryId;
     if (isEditing) {
+      dispatch(tryEditPost(post.id, title.trim(), body.trim(), category_id));
+    } else {
       dispatch(
-        tryEditPost({
-          id: post.id,
+        tryCreatePost({
           title: title.trim(),
           body: body.trim(),
           category_id,
         })
       );
-    } else {
-      dispatch(tryCreatePost({ title, body, category_id }));
     }
   }
 
