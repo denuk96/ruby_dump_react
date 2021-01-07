@@ -1,0 +1,10 @@
+@import "variables";
+
+button:active {
+  transform: translateY(3px);
+  transition: 0.3s all;
+}
+
+button:focus {
+  outline: none;
+}
