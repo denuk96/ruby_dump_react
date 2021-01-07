@@ -1,0 +1,30 @@
+@import "variables";
+
+.modal {
+  .modal-content {
+    background-color: $modal-background;
+    font-size: 14px;
+    font-weight: 200;
+    line-height: 2;
+  }
+
+  .modal-header {
+    border: none;
+    padding-bottom: 0;
+  }
+
+  .modal-header .close {
+    color: $menu-icon-color;
+    transition: 0.2s ease-in;
+    border-radius: 4px;
+  }
+
+  .modal-header .close:hover {
+    background-color: $hover-color;
+    color: white;
+  }
+
+  .modal-header .close:focus {
+    outline: none;
+  }
+}

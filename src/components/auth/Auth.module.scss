@@ -1,0 +1,32 @@
+@import "./src/styles/variables";
+
+.form {
+
+  .form__submit {
+    background:$btn-color;
+    color: $main-font-color;
+    text-transform: uppercase;
+    border: none;
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 100;
+    letter-spacing: 10px;
+    transition: 0.25s ease-out;
+  }
+
+  .form__submit:hover {
+    background-color: $btn-hover-color;
+  }
+
+  .form__validation_error {
+    color: $error-color;
+  }
+}
+
+.server_error {
+  text-align: center;
+  color: $error-color;
+}
+

@@ -1,6 +1,5 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { Button } from "react-bootstrap";
 import { signOut } from "../../ducks/auth";
 
 export default function SignOutButton() {

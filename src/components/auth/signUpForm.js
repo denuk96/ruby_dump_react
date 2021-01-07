@@ -1,8 +1,9 @@
 import React from "react";
-import { Button, Modal, Form } from "react-bootstrap";
+import { Modal, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import styles from "./Auth.module.scss";
 import { signUpTry } from "../../ducks/auth";
 import { Loader } from "../common/loader";
 
@@ -21,7 +22,7 @@ function SignUpForm({ showed, hideSignUpForm }) {
 
   if (showLoading) {
     return (
-      <Modal show={showed} onHide={hideSignUpForm}>
+      <Modal show={showed} onHide={hideSignUpForm} dialogClassName="modal-sm">
         <Modal.Header closeButton />
         <Modal.Body>
           <Loader />
@@ -31,42 +32,61 @@ function SignUpForm({ showed, hideSignUpForm }) {
   }
 
   return (
-    <Modal show={showed} onHide={hideSignUpForm}>
+    <Modal show={showed} onHide={hideSignUpForm} dialogClassName="modal-sm">
       <Modal.Header closeButton>
         <Modal.Title>Sign Up</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         {errorsFromServer != null && (
-          <h4 className="warning-message">{errorsFromServer}</h4>
+          <div className={styles.server_error}>{errorsFromServer}</div>
         )}
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+          <label htmlFor="email">Email</label>
           <Form.Control
             type="email"
             name="email"
-            placeholder="Email"
             ref={register({ required: true })}
           />
-          {errors.email && <span>password is required</span>}
+          {errors.email && (
+            <div className={styles.form__validation_error}>
+              Email is required
+            </div>
+          )}
 
+          <label className="mt-2" htmlFor="password">
+            Password
+          </label>
           <Form.Control
             type="password"
             name="password"
             placeholder="Password"
             ref={register({ required: true })}
           />
-          {errors.password && <span>password is required</span>}
+          {errors.password && (
+            <div className={styles.form__validation_error}>
+              Password is required
+            </div>
+          )}
 
+          <label className="mt-2" htmlFor="passwordConfirmation">
+            Password confirmation
+          </label>
           <Form.Control
             type="password"
             name="passwordConfirmation"
-            placeholder="Password Confirmation"
             ref={register({
               validate: (value) => value === watch("password"),
             })}
           />
-          {errors.passwordConfirmation && <span>password is not matched</span>}
+          {errors.passwordConfirmation && (
+            <div className={styles.form__validation_error}>
+              password is not matched
+            </div>
+          )}
 
-          <Button type="submit" />
+          <button type="submit" className={styles.form__submit}>
+            Sign up
+          </button>
         </Form>
       </Modal.Body>
     </Modal>
