@@ -2,12 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function CategoryItem({ category }) {
-  return (
-    <div>
-      <p>id:{category.id}</p>
-      <p>name: {category.name}</p>
-    </div>
-  );
+  return <div>{category.name}</div>;
 }
 
 CategoryItem.propTypes = {

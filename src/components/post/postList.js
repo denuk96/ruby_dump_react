@@ -39,31 +39,34 @@ export default function PostList() {
 
   return (
     <div className="container">
-      <h1>Posts Page</h1>
+      <div className="row">
+        <div className="col-lg-3 col-md-3 col-sm-12">
+          <CategoryList />
+        </div>
 
-      <CategoryList />
-
-      <h2>posts</h2>
-      <CreatePostButton />
-      <ul>
-        {sortedPosts !== undefined && sortedPosts.length > 0 ? (
-          sortedPosts.map((post, index) => {
-            return (
-              <li key={post.id}>
-                <PostItem
-                  post={post}
-                  index={index}
-                  category={categories.find(
-                    (category) => category.id === post.category_id
-                  )}
-                />
-              </li>
-            );
-          })
-        ) : (
-          <p>has no posts </p>
-        )}
-      </ul>
+        <div className="col-lg-9 col-md-9 col-sm-12">
+          <CreatePostButton />
+          <ul>
+            {sortedPosts !== undefined && sortedPosts.length > 0 ? (
+              sortedPosts.map((post, index) => {
+                return (
+                  <li key={post.id}>
+                    <PostItem
+                      post={post}
+                      index={index}
+                      category={categories.find(
+                        (category) => category.id === post.category_id
+                      )}
+                    />
+                  </li>
+                );
+              })
+            ) : (
+              <p>has no posts </p>
+            )}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import React from "react";
 import { Switch, Route, Link, useRouteMatch } from "react-router-dom";
 import { useSelector } from "react-redux";
+import styles from "./Category.module.scss";
 import CategoryItem from "./categoryItem";
 
 export default function CategoryList() {
@@ -9,31 +10,37 @@ export default function CategoryList() {
 
   return (
     <>
-      <div>
-        <h4>Category List</h4>
-        <ul>
-          <li>
-            <Link to="/posts"> All </Link>
-          </li>
-          <li>
-            <Link to={`${match.url}/other`}> OTHER </Link>
-          </li>
-          {categories.map((category, index) => {
-            return (
-              <li key={category.id}>
-                <Link to={`${match.url}/${category.name}`}>
-                  <CategoryItem category={category} index={index} />
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+      <div className={styles.categories}>
+        <Link
+          to="/posts"
+          className={styles.categories__item}
+          style={{ "--color": "#bf1650", color: "#fff" }}
+        >
+          <CategoryItem category={{ name: "All" }} />
+        </Link>
+        {categories.map((category, index) => {
+          return (
+            <Link
+              key={category.id}
+              to={`${match.url}/${category.name}`}
+              className={styles.categories__item}
+              style={{ "--color": category.color || "#fff" }}
+            >
+              <CategoryItem category={category} index={index} />
+            </Link>
+          );
+        })}
+        <Link
+          to={`${match.url}/other`}
+          className={styles.categories__item}
+          style={{ "--color": "#bf1650", color: "#fff" }}
+        >
+          <CategoryItem category={{ name: "Other" }} />
+        </Link>
       </div>
       <Switch>
         <Route path={`${match.path}/:slug`} />
-        <Route path={match.path}>
-          <h3>no selected categories</h3>
-        </Route>
+        <Route path={match.path} />
       </Switch>
     </>
   );
