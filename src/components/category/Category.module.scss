@@ -8,6 +8,11 @@
     width: 100%;
     color: var(--color);
     transition: 0.3s ease-in-out;
+
+    &.active {
+      color: #fff;
+      background-color: var(--color);
+    }
   }
 
   .categories__item:hover {

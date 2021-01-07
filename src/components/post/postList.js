@@ -12,6 +12,7 @@ export default function PostList() {
   const posts = useSelector((state) => state.postReducer.posts);
   const location = useLocation();
   const history = useHistory();
+  let activeCategoryName;
 
   const sortPosts = () => {
     const categoryName = location.pathname.split("posts/")[1];
@@ -20,11 +21,13 @@ export default function PostList() {
         (category) => category.name === categoryName
       );
       if (category) {
+        activeCategoryName = category.name;
         return posts.filter((post) => post.category_id === category.id);
       } else {
         history.push("/posts");
       }
     } else if (categoryName === "other") {
+      activeCategoryName = "other";
       return posts.filter((post) => post.category_id === null);
     } else {
       return posts;
@@ -41,7 +44,7 @@ export default function PostList() {
     <div className="container">
       <div className="row">
         <div className="col-lg-3 col-md-3 col-sm-12">
-          <CategoryList />
+          <CategoryList activeCategoryName={activeCategoryName} />
         </div>
 
         <div className="col-lg-9 col-md-9 col-sm-12">
