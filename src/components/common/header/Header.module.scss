@@ -1,8 +1,7 @@
 @import './src/styles/variables';
 
 .header {
-  box-shadow: 1px 1px 4px 0 rgba(0,0,0,.1);
-  position: absolute;
+  display: inline-block;
   width: 100%;
   z-index: 3;
   background-color: black;
@@ -30,7 +29,19 @@
   float: left;
   font-size: 2em;
   padding: 10px 20px;
-  text-decoration: none;
+  transition: 0.4s ease-out;
+
+  &:hover {
+    background-color: $hover-color;
+  }
+
+  &:active {
+    background-color: $active-color;
+  }
+
+  a {
+    color: #fff;
+  }
 }
 
 /* menu */
@@ -39,6 +50,19 @@
   clear: both;
   max-height: 0;
   transition: max-height .2s ease-out;
+
+  li {
+    cursor: pointer;
+  }
+
+  li:hover {
+    transition: 0.4s ease-out;
+    background-color: $hover-color;
+  }
+
+  li:active {
+    background-color: $active-color;
+  }
 }
 
 /* menu icon */
@@ -53,7 +77,7 @@
 }
 
 .header .menu__icon .navicon {
-  background: #333;
+  background: $menu-icon-color;
   display: block;
   height: 2px;
   position: relative;
@@ -63,7 +87,7 @@
 
 .header .menu__icon .navicon:before,
 .header .menu__icon .navicon:after {
-  background: #333;
+  background: $menu-icon-color;
   content: '';
   display: block;
   height: 100%;

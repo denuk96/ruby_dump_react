@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import styles from "./Header.module.scss";
 import SignUpForm from "../../auth/signUpForm";
 import SignInForm from "../../auth/signInForm";
@@ -22,7 +23,7 @@ export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.logo}>
-        <a href="#">RubyDump</a>
+        <Link to="/">RubyDump</Link>
       </div>
       <input
         className={styles.menu__btn}
@@ -35,15 +36,21 @@ export default function Header() {
       {!isSignedIn && (
         <ul className={styles.menu}>
           <li>
-            <a onClick={showSignUpForm.bind(null)}>sign-up</a>
+            <a onClick={showSignUpForm.bind(null)}>sign up</a>
           </li>
           <li>
-            <a onClick={showSignInForm.bind(null)}>sign-in</a>
+            <a onClick={showSignInForm.bind(null)}>sign in</a>
           </li>
         </ul>
       )}
 
-      {isSignedIn && <SignOutButton />}
+      {isSignedIn && (
+        <ul className={styles.menu}>
+          <li>
+            <SignOutButton />
+          </li>
+        </ul>
+      )}
 
       <SignUpForm showed={signUpFormState} hideSignUpForm={hideSignUpForm} />
       <SignInForm showed={signInFormState} hideSignInForm={hideSignInForm} />

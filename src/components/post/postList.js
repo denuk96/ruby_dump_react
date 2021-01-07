@@ -41,7 +41,6 @@ export default function PostList() {
       <h1>Posts Page</h1>
 
       <CategoryList />
-      <hr />
 
       <h2>posts</h2>
       <Link to="/posts/new">Create new POST </Link>

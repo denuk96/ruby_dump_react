@@ -10,9 +10,5 @@ export default function SignOutButton() {
     dispatch(signOut());
   }
 
-  return (
-    <Button variant="primary" onClick={signOutUser}>
-      Sign Out
-    </Button>
-  );
+  return <a onClick={signOutUser}>Sign Out</a>;
 }
