@@ -1,9 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { useLocation, useHistory, Link } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import CategoryList from "../category/categoryList";
 import PostItem from "./postItem";
 import { Loader } from "../common/loader";
+import CreatePostButton from "./buttons/createPostButton";
 
 export default function PostList() {
   const isLoaded = useSelector((state) => state.categoryReducer.loaded);
@@ -43,7 +44,7 @@ export default function PostList() {
       <CategoryList />
 
       <h2>posts</h2>
-      <Link to="/posts/new">Create new POST </Link>
+      <CreatePostButton />
       <ul>
         {sortedPosts !== undefined && sortedPosts.length > 0 ? (
           sortedPosts.map((post, index) => {
