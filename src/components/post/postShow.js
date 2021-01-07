@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { showErrors } from "../../ducks/message";
 import EditPostButton from "./buttons/editPostButton";
 import DeletePostButton from "./buttons/deletePostButton";

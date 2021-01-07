@@ -1,0 +1,11 @@
+@import 'variables';
+
+body {
+  background: $main-background;
+  font-family: $font-type;
+  color: $main-font-color;
+}
+
+a, a:hover {
+  text-decoration: none;
+}

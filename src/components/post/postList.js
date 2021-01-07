@@ -37,7 +37,7 @@ export default function PostList() {
   const sortedPosts = sortPosts();
 
   return (
-    <div>
+    <div className="container">
       <h1>Posts Page</h1>
 
       <CategoryList />

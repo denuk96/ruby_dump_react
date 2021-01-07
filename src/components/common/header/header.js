@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import SignUpForm from "../auth/signUpForm";
-import SignInForm from "../auth/signInForm";
-import SignOutButton from "../auth/signOutButton";
+import styles from "./Header.module.scss";
+import SignUpForm from "../../auth/signUpForm";
+import SignInForm from "../../auth/signInForm";
+import SignOutButton from "../../auth/signOutButton";
 
 export default function Header() {
   const isSignedIn = useSelector((state) => state.authReducer.isSignedIn);
@@ -19,22 +20,27 @@ export default function Header() {
   const hideSignInForm = () => setSignInForm(false);
 
   return (
-    <header>
+    <header className={styles.header}>
+      <div className={styles.logo}>
+        <a href="#">RubyDump</a>
+      </div>
+      <input
+        className={styles.menu__btn}
+        type="checkbox"
+        id={styles.menu__btn}
+      />
+      <label className={styles.menu__icon} htmlFor={styles.menu__btn}>
+        <span className={styles.navicon} />
+      </label>
       {!isSignedIn && (
-        <>
-          <button
-            className="btn btn-primary"
-            onClick={showSignUpForm.bind(null)}
-          >
-            sign-up
-          </button>
-          <button
-            className="btn btn-primary"
-            onClick={showSignInForm.bind(null)}
-          >
-            sign-in
-          </button>
-        </>
+        <ul className={styles.menu}>
+          <li>
+            <a onClick={showSignUpForm.bind(null)}>sign-up</a>
+          </li>
+          <li>
+            <a onClick={showSignInForm.bind(null)}>sign-in</a>
+          </li>
+        </ul>
       )}
 
       {isSignedIn && <SignOutButton />}
