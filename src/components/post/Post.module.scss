@@ -1,1 +1,32 @@
 @import "./src/styles/variables";
+
+.post {
+  .post__newBtn {
+    box-shadow: 0 10px 14px -7px #000000;
+    background-color:#000000;
+    border-radius:4px;
+    border:1px solid #ff000d;
+    display:inline-block;
+    cursor:pointer;
+    color: #bdb4b4;
+    font-size:13px;
+    font-weight:bold;
+    padding:6px 12px;
+    text-decoration:none;
+    text-shadow:0 1px 0 #db3f18;
+  }
+  .post__newBtn:hover {
+    background-color: #1d1212;
+  }
+  .post__newBtn:active {
+    position:relative;
+    top:1px;
+  }
+
+  .post__card {
+    margin-top: 10px;
+    border-radius:4px;
+    border: 1px solid #ff000d ;
+  }
+}
+
