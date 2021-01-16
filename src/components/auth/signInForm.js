@@ -5,7 +5,7 @@ import { Form, Modal } from "react-bootstrap";
 import PropTypes from "prop-types";
 import styles from "./Auth.module.scss";
 import { signInTry } from "../../ducks/auth";
-import { Loader } from "../common/loader";
+import { Loader } from "../common/loader/loader";
 
 function SignInForm({ showed, hideSignInForm }) {
   const { register, handleSubmit, errors } = useForm();

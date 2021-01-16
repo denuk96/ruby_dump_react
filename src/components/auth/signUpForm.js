@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import styles from "./Auth.module.scss";
 import { signUpTry } from "../../ducks/auth";
-import { Loader } from "../common/loader";
+import { Loader } from "../common/loader/loader";
 
 function SignUpForm({ showed, hideSignUpForm }) {
   const { register, handleSubmit, watch, errors } = useForm();

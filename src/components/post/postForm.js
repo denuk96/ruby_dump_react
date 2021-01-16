@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Loader } from "../common/loader";
+import { Loader } from "../common/loader/loader";
 import { useLocation } from "react-router-dom";
 import { tryCreatePost, tryEditPost } from "../../ducks/post";
 
