@@ -63,9 +63,7 @@ function SignUpForm({ showed, hideSignUpForm }) {
             ref={register({ required: true })}
           />
           {errors.password && (
-            <div className={styles.form__validation_error}>
-              Password is required
-            </div>
+            <div className="form__validation_error">Password is required</div>
           )}
 
           <label className="mt-2" htmlFor="passwordConfirmation">
@@ -79,7 +77,7 @@ function SignUpForm({ showed, hideSignUpForm }) {
             })}
           />
           {errors.passwordConfirmation && (
-            <div className={styles.form__validation_error}>
+            <div className="form__validation_error">
               password is not matched
             </div>
           )}

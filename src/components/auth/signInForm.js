@@ -48,9 +48,7 @@ function SignInForm({ showed, hideSignInForm }) {
             ref={register({ required: true })}
           />
           {errors.email && (
-            <div className={styles.form__validation_error}>
-              Email is required
-            </div>
+            <div className="form__validation_error">Email is required</div>
           )}
 
           <label className="mt-2" htmlFor="password">
@@ -62,9 +60,7 @@ function SignInForm({ showed, hideSignInForm }) {
             ref={register({ required: true })}
           />
           {errors.password && (
-            <div className={styles.form__validation_error}>
-              Password is required
-            </div>
+            <div className="form__validation_error">Password is required</div>
           )}
 
           <button type="submit" className={styles.form__submit}>
