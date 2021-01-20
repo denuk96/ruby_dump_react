@@ -22,38 +22,41 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
-      <div className={styles.logo}>
-        <Link to="/">RubyDump</Link>
-      </div>
-      <input
-        className={styles.menu__btn}
-        type="checkbox"
-        id={styles.menu__btn}
-      />
-      <label className={styles.menu__icon} htmlFor={styles.menu__btn}>
-        <span className={styles.navicon} />
-      </label>
-      {!isSignedIn && (
-        <ul className={styles.menu}>
-          <li>
-            <a onClick={showSignUpForm.bind(null)}>sign up</a>
-          </li>
-          <li>
-            <a onClick={showSignInForm.bind(null)}>sign in</a>
-          </li>
-        </ul>
-      )}
+        <div className={ "container" }>
+            <div className={styles.logo}>
+                <Link to="/">RubyDump</Link>
+            </div>
+            <input
+                className={styles.menu__btn}
+                type="checkbox"
+                id={styles.menu__btn}
+            />
+            <label className={styles.menu__icon} htmlFor={styles.menu__btn}>
+                <span className={styles.navicon} />
+            </label>
+            {!isSignedIn && (
+                <ul className={styles.menu}>
+                    <li>
+                        <a onClick={showSignUpForm.bind(null)}>sign up</a>
+                    </li>
+                    <li>
+                        <a onClick={showSignInForm.bind(null)}>sign in</a>
+                    </li>
+                </ul>
+            )}
 
-      {isSignedIn && (
-        <ul className={styles.menu}>
-          <li>
-            <SignOutButton />
-          </li>
-        </ul>
-      )}
+            {isSignedIn && (
+                <ul className={styles.menu}>
+                    <li>
+                        <SignOutButton />
+                    </li>
+                </ul>
+            )}
 
-      <SignUpForm showed={signUpFormState} hideSignUpForm={hideSignUpForm} />
-      <SignInForm showed={signInFormState} hideSignInForm={hideSignInForm} />
+            <SignUpForm showed={signUpFormState} hideSignUpForm={hideSignUpForm} />
+            <SignInForm showed={signInFormState} hideSignInForm={hideSignInForm} />
+        </div>
+
     </header>
   );
 }
