@@ -4,7 +4,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { showErrors } from "../../ducks/message";
 import EditPostButton from "./buttons/editPostButton";
 import DeletePostButton from "./buttons/deletePostButton";
-import { Loader } from "../common/loader";
+import { Loader } from "../common/loader/loader";
 
 export default function PostShow() {
   const history = useHistory();

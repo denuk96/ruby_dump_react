@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { hideErrors, hideNotices } from "../../ducks/message";
+import { hideErrors, hideNotices } from "../../../ducks/message";
+import styles from "./Message.module.scss";
 
 export default function Message() {
   const dispatch = useDispatch();
@@ -13,7 +14,10 @@ export default function Message() {
   return (
     <div>
       {errors && errors.length > 0 ? (
-        <div className="alert alert-warning" role="alert">
+        <div
+          className={["alert alert-warning", styles.message].join(" ")}
+          role="alert"
+        >
           {errors.join()}
           <button
             type="button"
@@ -29,7 +33,10 @@ export default function Message() {
       )}
 
       {notices && notices.length > 0 ? (
-        <div className="alert alert-primary" role="alert">
+        <div
+          className={["alert alert-primary", styles.message].join(" ")}
+          role="alert"
+        >
           {notices.join()}
           <button
             type="button"

@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Loader } from "../common/loader";
+import { Loader } from "../common/loader/loader";
 import { useLocation } from "react-router-dom";
 import { tryCreatePost, tryEditPost } from "../../ducks/post";
 
@@ -41,43 +41,54 @@ export default function PostForm() {
   }
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <Form.Control
-        type="select"
-        as="select"
-        name="categoryId"
-        ref={register}
-        defaultValue={isEditing ? post.category_id : 0}
-      >
-        {categories.map((category) => {
-          return (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          );
-        })}
-        <option value={0}>Other</option>
-      </Form.Control>
+    <div className="col-lg-4 offset-lg-4 col-md-6 offset-md-3 col-sm-8 offset-sm-2 col-xs-12">
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <label htmlFor="categoryId">Category</label>
+        <Form.Control
+          type="select"
+          as="select"
+          name="categoryId"
+          ref={register}
+          defaultValue={isEditing ? post.category_id : 0}
+        >
+          {categories.map((category) => {
+            return (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            );
+          })}
+          <option value={0}>Other</option>
+        </Form.Control>
 
-      <Form.Control
-        type="text"
-        name="title"
-        placeholder="TITLE"
-        defaultValue={isEditing && post ? post.title : ""}
-        ref={register({ required: true })}
-      />
-      {errors.title && <span>Title is required</span>}
+        <label htmlFor="title">Title</label>
+        <Form.Control
+          type="text"
+          name="title"
+          placeholder="TITLE"
+          defaultValue={isEditing && post ? post.title : ""}
+          ref={register({ required: true })}
+        />
+        {errors.title && (
+          <div className="form__validation_error">Title is required</div>
+        )}
 
-      <Form.Control
-        type="text"
-        name="body"
-        placeholder="Right smth here"
-        defaultValue={isEditing && post ? post.body : ""}
-        ref={register({ required: true })}
-      />
-      {errors.body && <span>BODY is required</span>}
+        <label htmlFor="body">Body</label>
+        <Form.Control
+          type="text"
+          name="body"
+          placeholder="Right smth here"
+          defaultValue={isEditing && post ? post.body : ""}
+          ref={register({ required: true })}
+        />
+        {errors.body && (
+          <div className="form__validation_error">BODY is required</div>
+        )}
 
-      <Button type="submit"> Submit </Button>
-    </Form>
+        <button className="col-sm-4 offset-sm-4 col-xs-12" type="submit">
+          Submit
+        </button>
+      </Form>
+    </div>
   );
 }

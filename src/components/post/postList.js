@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useLocation, useHistory } from "react-router-dom";
 import CategoryList from "../category/categoryList";
 import PostItem from "./postItem";
-import { Loader } from "../common/loader";
+import { Loader } from "../common/loader/loader";
 import CreatePostButton from "./buttons/createPostButton";
 import styles from "./Post.module.scss";
 
