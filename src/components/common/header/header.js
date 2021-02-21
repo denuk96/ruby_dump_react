@@ -22,41 +22,42 @@ export default function Header() {
 
   return (
     <header className={styles.header}>
-        <div className={ "container" }>
-            <div className={styles.logo}>
-                <Link to="/">RubyDump</Link>
-            </div>
-            <input
-                className={styles.menu__btn}
-                type="checkbox"
-                id={styles.menu__btn}
-            />
-            <label className={styles.menu__icon} htmlFor={styles.menu__btn}>
-                <span className={styles.navicon} />
-            </label>
-            {!isSignedIn && (
-                <ul className={styles.menu}>
-                    <li>
-                        <a onClick={showSignUpForm.bind(null)}>sign up</a>
-                    </li>
-                    <li>
-                        <a onClick={showSignInForm.bind(null)}>sign in</a>
-                    </li>
-                </ul>
-            )}
-
-            {isSignedIn && (
-                <ul className={styles.menu}>
-                    <li>
-                        <SignOutButton />
-                    </li>
-                </ul>
-            )}
-
-            <SignUpForm showed={signUpFormState} hideSignUpForm={hideSignUpForm} />
-            <SignInForm showed={signInFormState} hideSignInForm={hideSignInForm} />
+      <div className={"container"}>
+        <div className={styles.logo}>
+          <Link to="/">RubyDump</Link>
         </div>
+        <input
+          className={styles.menu__btn}
+          type="checkbox"
+          id={styles.menu__btn}
+        />
+        <label className={styles.menu__icon} htmlFor={styles.menu__btn}>
+          <span className={styles.navicon} />
+        </label>
+        {!isSignedIn && (
+          <ul className={styles.menu}>
+            <li>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a onClick={showSignUpForm.bind(null)}>sign up</a>
+            </li>
+            <li>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+              <a onClick={showSignInForm.bind(null)}>sign in</a>
+            </li>
+          </ul>
+        )}
 
+        {isSignedIn && (
+          <ul className={styles.menu}>
+            <li>
+              <SignOutButton />
+            </li>
+          </ul>
+        )}
+
+        <SignUpForm showed={signUpFormState} hideSignUpForm={hideSignUpForm} />
+        <SignInForm showed={signInFormState} hideSignInForm={hideSignInForm} />
+      </div>
     </header>
   );
 }

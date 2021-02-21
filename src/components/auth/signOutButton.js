@@ -9,5 +9,6 @@ export default function SignOutButton() {
     dispatch(signOut());
   }
 
+  // eslint-disable-next-line jsx-a11y/anchor-is-valid
   return <a onClick={signOutUser}>Sign Out</a>;
 }
