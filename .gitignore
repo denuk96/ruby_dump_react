@@ -28,3 +28,4 @@ yarn-error.log*
 .env.development
 .env.prod
 .eslintcache
+yarn.lock

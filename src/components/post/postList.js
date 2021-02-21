@@ -5,6 +5,7 @@ import CategoryList from "../category/categoryList";
 import PostItem from "./postItem";
 import { Loader } from "../common/loader/loader";
 import CreatePostButton from "./buttons/createPostButton";
+import styles from "./Post.module.scss";
 
 export default function PostList() {
   const isLoaded = useSelector((state) => state.categoryReducer.loaded);
@@ -18,7 +19,7 @@ export default function PostList() {
     const categoryName = location.pathname.split("posts/")[1];
     if (categoryName && categoryName !== "other") {
       const category = categories.find(
-        (category) => category.name === categoryName
+          (category) => category.name === categoryName
       );
       if (category) {
         activeCategoryName = category.name;
@@ -35,7 +36,7 @@ export default function PostList() {
   };
 
   if (!isLoaded) {
-    return <Loader />;
+    return <Loader/>;
   }
 
   const sortedPosts = sortPosts();
@@ -44,30 +45,30 @@ export default function PostList() {
     <div className="container">
       <div className="row">
         <div className="col-lg-3 col-md-3 col-sm-12">
-          <CategoryList activeCategoryName={activeCategoryName} />
+          <CategoryList activeCategoryName={activeCategoryName}/>
         </div>
 
         <div className="col-lg-9 col-md-9 col-sm-12">
-          <CreatePostButton />
-          <ul>
+          <CreatePostButton/>
+          <div className={"mt-3"}>
             {sortedPosts !== undefined && sortedPosts.length > 0 ? (
               sortedPosts.map((post, index) => {
                 return (
-                  <li key={post.id}>
-                    <PostItem
-                      post={post}
-                      index={index}
-                      category={categories.find(
-                        (category) => category.id === post.category_id
-                      )}
-                    />
-                  </li>
+                    <div key={post.id}>
+                      <PostItem
+                          post={post}
+                          index={index}
+                          category={categories.find(
+                              (category) => category.id === post.category_id
+                          )}
+                      />
+                    </div>
                 );
               })
             ) : (
               <p>has no posts </p>
             )}
-          </ul>
+          </div>
         </div>
       </div>
     </div>
