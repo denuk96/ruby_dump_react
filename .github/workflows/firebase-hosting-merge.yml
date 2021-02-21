@@ -21,3 +21,4 @@ jobs:
           projectId: ruby-dump
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
+          REACT_APP_API_URL: https://api-ruby-dump.ml/api/v1/
