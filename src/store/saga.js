@@ -3,7 +3,7 @@ import { auth } from "../ducks/auth";
 import { resources } from "../ducks/resourses";
 import { post } from "../ducks/post";
 
-export default function* () {
+export default function* saga() {
   yield spawn(auth);
   yield spawn(resources);
   yield spawn(post);
