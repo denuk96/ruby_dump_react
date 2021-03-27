@@ -33,5 +33,14 @@
   .post__card:hover {
     border: 1px solid #dbbaba;
   }
+
+  .post__btnList {
+    display: flex;
+    margin: 5px;
+
+    .post__newBtn {
+      margin: 0 2px;
+    }
+  }
 }
 

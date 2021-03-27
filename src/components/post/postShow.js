@@ -5,6 +5,7 @@ import { showErrors } from "../../ducks/message";
 import EditPostButton from "./buttons/editPostButton";
 import DeletePostButton from "./buttons/deletePostButton";
 import { Loader } from "../common/loader/loader";
+import styles from "./Post.module.scss";
 
 export default function PostShow() {
   const history = useHistory();
@@ -26,15 +27,20 @@ export default function PostShow() {
   }
 
   return (
-    <div>
-      <b>title: {post.title}</b>
-      <p>category_id: {post.category_id}</p>
-      <p>
-        <EditPostButton post={post} />
-      </p>
-      <p>
-        <DeletePostButton post={post} />
-      </p>
+    <div className="container">
+      <div className={styles.post}>
+        <div className={styles.post__card}>
+          <h5 className={"mt-3 ml-3 text-capitalize text-white"}>
+            {post.title}
+          </h5>
+          <div className={"p-3 text-white-100"}>{post.body}</div>
+
+          <div className={styles.post__btnList}>
+            <EditPostButton post={post} />
+            <DeletePostButton post={post} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

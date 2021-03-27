@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { tryDeletePost } from "../../../ducks/post";
+import styles from "../Post.module.scss";
 
 function DeletePostButton({ post }) {
   const dispatch = useDispatch();
@@ -13,9 +14,10 @@ function DeletePostButton({ post }) {
 
   if (auth.isSignedIn && auth.user.id === post.user_id) {
     return (
-      <div>
-        <button onClick={deletePost.bind(null)}>Delete</button>
-      </div>
+      // eslint-disable-next-line jsx-a11y/anchor-is-valid
+      <a className={styles.post__newBtn} onClick={deletePost.bind(null)}>
+        Delete
+      </a>
     );
   } else {
     return <></>;
