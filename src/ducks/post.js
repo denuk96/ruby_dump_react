@@ -113,7 +113,7 @@ export const postSuccessfulCreated = (post) => {
   };
 };
 
-export const tryEditPost = (id, title, body, category_id) => {
+export const tryEditPost = (id, title, body, category_id, picture) => {
   return {
     type: TRY_EDIT_POST,
     payload: {
@@ -121,6 +121,7 @@ export const tryEditPost = (id, title, body, category_id) => {
       title,
       body,
       category_id,
+      picture,
     },
   };
 };
@@ -156,15 +157,24 @@ export const postDeleted = (id) => {
 function* tryingCreatePost(action) {
   yield put(postIsLoading());
   const accessToken = yield select(getAccessToken);
-  let { title, body, category_id } = action.payload.post;
+  let { title, body, category_id, picture } = action.payload.post;
+
+  let bodyData = new FormData();
+  bodyData.append("title", title);
+  bodyData.append("body", body);
+  bodyData.append("category_id", category_id);
+  bodyData.append("picture", picture);
+
   try {
     const response = yield call(() =>
       axios({
         method: "post",
         url: baseLink,
-        dataType: "json",
-        data: { body, title, category_id },
-        headers: { Authorization: accessToken },
+        data: bodyData,
+        headers: {
+          Authorization: accessToken,
+          "Content-Type": "multipart/form-data",
+        },
       })
     );
     yield put(postSuccessfulCreated(response.data));
@@ -181,15 +191,24 @@ function* tryingCreatePost(action) {
 function* tryingEditPost(action) {
   yield put(postIsLoading());
   const accessToken = yield select(getAccessToken);
-  let { id, title, body, category_id } = action.payload;
+  let { id, title, body, category_id, picture } = action.payload;
+  let bodyData = new FormData();
+  bodyData.append("title", title);
+  bodyData.append("body", body);
+  bodyData.append("category_id", category_id);
+  bodyData.append("picture", picture);
+
+  console.log(bodyData);
   try {
     const response = yield call(() =>
       axios({
         method: "PATCH",
         url: baseLink + id,
-        dataType: "json",
-        data: { body, title, category_id },
-        headers: { Authorization: accessToken },
+        data: bodyData,
+        headers: {
+          Authorization: accessToken,
+          "Content-Type": "multipart/form-data",
+        },
       })
     );
     yield put(postSuccessfulEdited(response.data));

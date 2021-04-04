@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,20 +19,36 @@ export default function PostForm() {
     isEditing = true;
     post = location.state.post;
   }
+  let picture = post ? post.picture.url : null;
+  const [imgPreview, setImgPreview] = useState(picture);
 
   function onSubmit(data) {
-    let { title, body, categoryId } = data;
+    let { title, body, categoryId, image } = data;
     let category_id = categoryId === "0" ? null : categoryId;
+
     if (isEditing) {
-      dispatch(tryEditPost(post.id, title.trim(), body.trim(), category_id));
+      dispatch(
+        tryEditPost(post.id, title.trim(), body.trim(), category_id, image[0])
+      );
     } else {
       dispatch(
         tryCreatePost({
           title: title.trim(),
           body: body.trim(),
+          picture: image[0],
           category_id,
         })
       );
+    }
+  }
+
+  function showImagePreview(e) {
+    if (e.target.files[0]) {
+      const reader = new FileReader();
+      reader.addEventListener("load", () => {
+        setImgPreview(reader.result);
+      });
+      reader.readAsDataURL(e.target.files[0]);
     }
   }
 
@@ -84,6 +100,17 @@ export default function PostForm() {
         {errors.body && (
           <div className="form__validation_error">BODY is required</div>
         )}
+
+        <label htmlFor="image">Image</label>
+        {imgPreview && (
+          <img className="form__imgPreview" src={imgPreview} alt="preview" />
+        )}
+        <input
+          ref={register}
+          name="image"
+          type="file"
+          onInput={showImagePreview.bind(null)}
+        />
 
         <button className="col-sm-4 offset-sm-4 col-xs-12" type="submit">
           Submit

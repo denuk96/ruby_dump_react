@@ -35,6 +35,13 @@ export default function PostShow() {
           </h5>
           <div className={"p-3 text-white-100"}>{post.body}</div>
 
+          {/* eslint-disable-next-line jsx-a11y/img-redundant-alt */}
+          <img
+            className={styles.post__img}
+            src={post.picture.url}
+            alt="image"
+          />
+
           <div className={styles.post__btnList}>
             <EditPostButton post={post} />
             <DeletePostButton post={post} />

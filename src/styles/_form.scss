@@ -13,6 +13,11 @@ form {
     color: $error-color;
   }
 
+  .form__imgPreview {
+    width: 100%;
+    margin: 5px 0;
+  }
+
   button[type=submit] {
     background: $btn-color;
     color: $main-font-color;
