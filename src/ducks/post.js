@@ -5,6 +5,7 @@ import axios from "axios";
 import { getAccessToken } from "./auth";
 import { showErrors, showNotices } from "./message";
 import { getCategories } from "./category";
+import { postBodyData } from "../tools/duckTools";
 
 // TYPES
 const moduleName = "posts";
@@ -157,13 +158,7 @@ export const postDeleted = (id) => {
 function* tryingCreatePost(action) {
   yield put(postIsLoading());
   const accessToken = yield select(getAccessToken);
-  let { title, body, category_id, picture } = action.payload.post;
-
-  let bodyData = new FormData();
-  bodyData.append("title", title);
-  bodyData.append("body", body);
-  bodyData.append("category_id", category_id);
-  bodyData.append("picture", picture);
+  const bodyData = postBodyData(action.payload.post);
 
   try {
     const response = yield call(() =>
@@ -191,19 +186,14 @@ function* tryingCreatePost(action) {
 function* tryingEditPost(action) {
   yield put(postIsLoading());
   const accessToken = yield select(getAccessToken);
-  let { id, title, body, category_id, picture } = action.payload;
-  let bodyData = new FormData();
-  bodyData.append("title", title);
-  bodyData.append("body", body);
-  bodyData.append("category_id", category_id);
-  bodyData.append("picture", picture);
+  const bodyData = postBodyData(action.payload);
 
   console.log(bodyData);
   try {
     const response = yield call(() =>
       axios({
         method: "PATCH",
-        url: baseLink + id,
+        url: baseLink + action.payload.id,
         data: bodyData,
         headers: {
           Authorization: accessToken,
